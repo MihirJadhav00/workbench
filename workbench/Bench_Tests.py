@@ -35,7 +35,7 @@ def benchCode(benchFunc, *args):
     """
     gc.disable()
     start = time.perf_counter()
-    temp = [benchFunc(*args) for i in range(1)]
+    temp = [benchFunc(*args) for i in range(3)]
     time1 = (time.perf_counter() - start) / 5
     gc.enable()
     del temp
@@ -62,16 +62,16 @@ def CSVWriter(func_dict, wall_time, mem_use):
     """
     for class_name, funcs in func_dict.items():
         for i, func_name in enumerate(funcs):
-            if not os.path.isfile(f'C:/Users/Mihir Jadhav/Downloads/web_bench/workbench/workbench/data/{class_name}/{func_name}.csv'):
-                os.makedirs(f'C:/Users/Mihir Jadhav/Downloads/web_bench/workbench/workbench/data/{class_name}', exist_ok=True)
-                with open(f'C:/Users/Mihir Jadhav/Downloads/web_bench/workbench/workbench/data/{class_name}/{func_name}.csv', 'w+') as fptr:
+            if not os.path.isfile(f'workbench/workbench/data/{class_name}/{func_name}.csv'):
+                os.makedirs(f'workbench/workbench/data/{class_name}', exist_ok=True)
+                with open(f'workbench/workbench/data/{class_name}/{func_name}.csv', 'w+') as fptr:
                     writer = csv.writer(fptr)
                     writer.writerow([
                         'Commit_Tstamp', 'Commit_Msg', '100K', '1M', '10M',
                         '100M', '1B'
                     ])
 
-            with open(f'C:/Users/Mihir Jadhav/Downloads/web_bench/workbench/workbench/data/{class_name}/{func_name}.csv', 'a+') as fptr:
+            with open(f'workbench/workbench/data{class_name}/{func_name}.csv', 'a+') as fptr:
                 writer = csv.writer(fptr)
 
                 if func_name[0] == 'T':
@@ -287,7 +287,7 @@ def callerFunction(bench_msg):
         f'{bench_msg}',
     ] for i in range(int(sum([len(x) for x in func_dict.values()]) / 2))]
 
-    for size in [10**i for i in range(5, 7)]:
+    for size in [10**i for i in range(5, 9)]:
         num_func = 0
         times = np.arange(size)
         counts = np.random.rand(size) * 100
@@ -473,10 +473,7 @@ def callerFunction(bench_msg):
         num_func += 1
 
         del lc, time1, mem1
-        print("One Complete")
     CSVWriter(func_dict, wall_time, mem_use)
     del func_dict, wall_time, mem_use
 
-    # class_name = input("Enter the class whose file you wish to benchmark: ")
-    # file_name = input("Enter the file you wish to benchmark: ")
-    # CSVPlotter(os.path.abspath(os.getcwd()), class_name, file_name)
+   

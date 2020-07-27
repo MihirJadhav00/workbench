@@ -7,7 +7,7 @@ def HomePage(requests):
         class_name = requests.POST.get("slct1")
         file_name = requests.POST.get("slct2")
         print(class_name,file_name)
-        CSVPlotter("C:/Users/Mihir Jadhav/Downloads/web_bench/workbench/workbench/data/",class_name,file_name)
+        CSVPlotter("workbench/workbench/data/",class_name,file_name)
     
     return render(requests,"index.html")
 
