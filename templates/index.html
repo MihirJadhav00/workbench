@@ -1,0 +1,132 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>work bench</title>
+    <script type="text/javascript">
+      function populate(s1,s2){
+        var s1 = document.getElementById(s1)
+        var s2 = document.getElementById(s2)
+
+        s2.innerHTML = "";
+
+        if(s1.value == "Lightcurve"){
+          var optionArray = ["|","MakeLightcurve|MakeLightcurve","InitNoParam|InitNoParam","InitParam|InitParam","ChangeMJDREF|ChangeMJDREF","Rebin_Sum|Rebin_Sum","Rebin_Mean_Avg|Rebin_Mean_Avg","AddLC|AddLC","SubLC|SubLC","EqLC|EqLC","NegLC|NegLC","Trunc_Index|Trunc_Index","Trunc_Time|Trunc_Time","SplitLC|SplitLC","Sort_Time|Sort_Time","Sort_Counts|Sort_Counts","Analyze_Chunks|Analyze_Chunks","Est_Chunk_Len|Est_Chunk_Len","JoinLC|JoinLC"]
+        }
+        if(s1.value == "Crossspectrum"){
+          var optionArray = ["|","Init|Init","Rebin_Linear|Rebin_Linear","Coherence|Coherence","Tlag|Tlag"]
+        }
+        if(s1.value == "AveragedCrossspectrum"){
+          var optionArray = ["|","Init|Init","Coher|Coher","Tlag|Tlag"]
+        }
+        if(s1.value == "Powerspectrum"){
+          var optionArray = ["|","Init|Init","Rebin|Rebin","RMS|RMS","Class_Sign|Class_Sign"]
+        }
+        if(s1.value == "AveragedPowerspectrum"){
+          var optionArray = ["|","Init|Init"]
+        }
+
+        for(var option in optionArray){
+          var pair = optionArray[option].split("|");
+          var newOption = document.createElement("option");
+          newOption.value = pair[0];
+          newOption.innerHTML = pair[1];
+          s2.options.add(newOption)
+        }
+      }
+    </script>
+  </head>
+  <body style="overflow-x: hidden;overflow-y: hidden;">
+    <div class="row">
+      <div class="col-md-12">
+        <img src="{% static 'img/image.png'%}" alt="" style="width:30%;height: auto;">
+      </div>
+    </div>
+    <div class="container" style="height: 100vh;width: 100vw;">
+      
+        <hr>
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="row ">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <select class="form-control form-control-lg" id="slct1" name="slct1" onchange="populate(this.id,'slct2')" required>
+                    <option value=""></option>
+                    <option value="Lightcurve">Lightcurve</option>
+                    <option value="Crossspectrum">Crossspectrum</option>
+                    <option value="AveragedCrossspectrum">AveragedCrossspectrum</option>
+                    <option value="Powerspectrum">Powerspectrum</option>
+                    <option value="AveragedPowerspectrum">AveragedPowerspectrum</option>
+                  </select>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control form-control-lg" id="slct2" name="slct2" required></select>
+            </div>
+            <div class="col-md-2"></div>
+
+        </div>
+        <div class="row pt-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-info btn-lg btn-block">Display Plot</button>
+            </div>
+            <div class="col-md-4">
+                <a type="button" class="btn btn-info btn-lg btn-block" href="/confirmation/" style="color: #fff;" >Run Benchmarks</a>
+            </div>
+            <div class="col-md-2"></div>
+        
+        </div>
+        </form>
+       
+        <hr>
+
+
+
+        <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning !!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Benchmarking should be done only after substantial changes are made to the codebase. <br>
+        Benchmarks will take approximately 5 hours to run. <br>
+        
+        Enter a commit message or '-' to continue:
+        <hr>
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input type="text" class="form-control form-control-md" placeholder="Start Typing.." required name="commit_msg" id="">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-warning btn-block">Confirm</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
