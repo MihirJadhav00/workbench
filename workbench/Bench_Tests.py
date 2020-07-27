@@ -101,7 +101,6 @@ def CSVPlotter(path, class_name, func_name):
         if root[root.rfind('/', 0, len(root)) + 1:len(root)] == class_name and f'Time_{func_name}.csv' in files:
             T_file = os.path.join(root, f'Time_{func_name}.csv')
             M_file = os.path.join(root, f'Mem_{func_name}.csv')
-            print(T_file)
     fig = make_subplots(rows=1,
                         cols=2,
                         subplot_titles=("Execution Time(in s)(log)",
